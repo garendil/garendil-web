@@ -1,0 +1,76 @@
+{
+  "pages": {
+    "/_not-found/page": [
+      "static/chunks/webpack-499eff0c29fcdf22.js",
+      "static/chunks/5b8f0dd8-06695914d1228e0c.js",
+      "static/chunks/749-e6201a4ceccd33e6.js",
+      "static/chunks/main-app-76e15873409cd293.js",
+      "static/chunks/app/_not-found/page-373c0891d907aa25.js"
+    ],
+    "/layout": [
+      "static/chunks/webpack-499eff0c29fcdf22.js",
+      "static/chunks/5b8f0dd8-06695914d1228e0c.js",
+      "static/chunks/749-e6201a4ceccd33e6.js",
+      "static/chunks/main-app-76e15873409cd293.js",
+      "static/css/900d74d4255a6e15.css",
+      "static/chunks/app/layout-e59d326e5b3930c9.js"
+    ],
+    "/page": [
+      "static/chunks/webpack-499eff0c29fcdf22.js",
+      "static/chunks/5b8f0dd8-06695914d1228e0c.js",
+      "static/chunks/749-e6201a4ceccd33e6.js",
+      "static/chunks/main-app-76e15873409cd293.js",
+      "static/chunks/650-6d10648f8a948d0a.js",
+      "static/chunks/app/page-18bdc44a4b4c0a3d.js"
+    ],
+    "/perfil/[dni]/page": [
+      "static/chunks/webpack-499eff0c29fcdf22.js",
+      "static/chunks/5b8f0dd8-06695914d1228e0c.js",
+      "static/chunks/749-e6201a4ceccd33e6.js",
+      "static/chunks/main-app-76e15873409cd293.js",
+      "static/chunks/650-6d10648f8a948d0a.js",
+      "static/chunks/566-e2d27309d8923a00.js",
+      "static/chunks/app/perfil/[dni]/page-f5a46a6adc6bb3a7.js"
+    ],
+    "/grafo/page": [
+      "static/chunks/webpack-499eff0c29fcdf22.js",
+      "static/chunks/5b8f0dd8-06695914d1228e0c.js",
+      "static/chunks/749-e6201a4ceccd33e6.js",
+      "static/chunks/main-app-76e15873409cd293.js",
+      "static/chunks/650-6d10648f8a948d0a.js",
+      "static/chunks/app/grafo/page-3a18dbfc35ccd030.js"
+    ],
+    "/metodologia/page": [
+      "static/chunks/webpack-499eff0c29fcdf22.js",
+      "static/chunks/5b8f0dd8-06695914d1228e0c.js",
+      "static/chunks/749-e6201a4ceccd33e6.js",
+      "static/chunks/main-app-76e15873409cd293.js",
+      "static/chunks/650-6d10648f8a948d0a.js",
+      "static/chunks/app/metodologia/page-99f4323137d95c52.js"
+    ],
+    "/admin/page": [
+      "static/chunks/webpack-499eff0c29fcdf22.js",
+      "static/chunks/5b8f0dd8-06695914d1228e0c.js",
+      "static/chunks/749-e6201a4ceccd33e6.js",
+      "static/chunks/main-app-76e15873409cd293.js",
+      "static/chunks/566-e2d27309d8923a00.js",
+      "static/chunks/app/admin/page-b34a88baf90bb663.js"
+    ],
+    "/admin/layout": [
+      "static/chunks/webpack-499eff0c29fcdf22.js",
+      "static/chunks/5b8f0dd8-06695914d1228e0c.js",
+      "static/chunks/749-e6201a4ceccd33e6.js",
+      "static/chunks/main-app-76e15873409cd293.js",
+      "static/chunks/650-6d10648f8a948d0a.js",
+      "static/chunks/app/admin/layout-d0ce3682e8e6b843.js"
+    ],
+    "/admin/status/page": [
+      "static/chunks/webpack-499eff0c29fcdf22.js",
+      "static/chunks/5b8f0dd8-06695914d1228e0c.js",
+      "static/chunks/749-e6201a4ceccd33e6.js",
+      "static/chunks/main-app-76e15873409cd293.js",
+      "static/chunks/566-e2d27309d8923a00.js",
+      "static/chunks/app/admin/status/page-ec08ec98f9a9cc15.js"
+    ]
+  }
+}
