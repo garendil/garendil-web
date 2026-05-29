@@ -1,1 +1,0 @@
-self.__REACT_LOADABLE_MANIFEST='{"app/components/GrafoFuncionario.tsx -> vis-data":{"id":9806,"files":["static/chunks/1b14b2d1.4235134cb43a08c8.js"]},"app/components/GrafoFuncionario.tsx -> vis-network":{"id":4709,"files":["static/chunks/ba2e21d9.b10d37e563afc91d.js","static/chunks/c51619b8.4e34bbd1845c54c1.js"]}}';
