@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Garendil — Transparencia sobre quién nos gobierna. Consulta el perfil de riesgo de funcionarios públicos peruanos." />
+  <title>Garendil — Transparencia sobre quién nos gobierna</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   VARIABLES
+═══════════════════════════════════════════════════════════ */
+:root {
+  --bg:           #0e0f11;
+  --surface:      #161820;
+  --surface-2:    #1c1e28;
+  --border:       rgba(255,255,255,0.07);
+  --border-hover: rgba(255,255,255,0.14);
+  --accent:       #e63946;
+  --accent-teal:  #2ec4b6;
+  --accent-orange:#f4a261;
+  --text:         #e8e9ea;
+  --text-muted:   #8b8fa8;
+  --text-subtle:  #4d5168;
+  --font-display: 'Syne', sans-serif;
+  --font-body:    'Inter', sans-serif;
+  --font-mono:    ui-monospace, 'Cascadia Code', 'Roboto Mono', monospace;
+  --r:            8px;
+  --r-lg:         12px;
+  --shadow:       0 2px 16px rgba(0,0,0,.45);
+  --shadow-lg:    0 8px 40px rgba(0,0,0,.55);
+  --header-h:     56px;
+}
+[data-theme="light"] {
+  --bg:           #f5f5f0;
+  --surface:      #ffffff;
+  --surface-2:    #eeeee9;
+  --border:       rgba(0,0,0,.08);
+  --border-hover: rgba(0,0,0,.15);
+  --text:         #1a1b1e;
+  --text-muted:   #6b6d7e;
+  --text-subtle:  #9a9daf;
+  --shadow:       0 2px 12px rgba(0,0,0,.08);
+  --shadow-lg:    0 8px 32px rgba(0,0,0,.12);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESET + BASE
+═══════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent-teal); text-decoration: none; }
+a:hover { text-decoration: underline; }
+button { cursor: pointer; font-family: var(--font-body); border: none; background: none; }
+input, select { font-family: var(--font-body); }
+svg { display: block; flex-shrink: 0; }
+:focus-visible { outline: 2px solid var(--accent-teal); outline-offset: 2px; border-radius: 3px; }
+
+/* ═══════════════════════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════════════════════ */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.container-wide { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER
+═══════════════════════════════════════════════════════════ */
+#site-header {
+  position: sticky; top: 0; z-index: 50;
+  height: var(--header-h);
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+}
+.header-inner {
+  height: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; gap: 32px;
+}
+.logo-link {
+  display: flex; align-items: center; gap: 10px;
+  color: var(--text); text-decoration: none;
+  flex-shrink: 0;
+}
+.logo-link:hover { text-decoration: none; opacity: 0.85; }
+.logo-mark { color: var(--accent); }
+.logo-text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.18em;
+  color: var(--text);
+}
+.header-nav {
+  display: flex; align-items: center; gap: 4px;
+  margin-left: auto;
+}
+.header-nav a {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border-radius: var(--r);
+  font-size: 13px; font-weight: 500;
+  color: var(--text-muted); text-decoration: none;
+  transition: color .15s, background .15s;
+}
+.header-nav a:hover { color: var(--text); background: var(--surface); }
+.header-nav a svg { width: 14px; height: 14px; }
+.header-actions { display: flex; align-items: center; gap: 8px; margin-left: 12px; }
+#theme-toggle {
+  width: 36px; height: 36px; border-radius: var(--r);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-muted); background: transparent;
+  border: 1px solid var(--border); transition: all .15s;
+}
+#theme-toggle:hover { color: var(--text); border-color: var(--border-hover); background: var(--surface); }
+#theme-toggle svg { width: 16px; height: 16px; }
+[data-theme="dark"] .icon-light { display: block; }
+[data-theme="dark"] .icon-dark  { display: none; }
+[data-theme="light"] .icon-light { display: none; }
+[data-theme="light"] .icon-dark  { display: block; }
+#mobile-filter-btn {
+  display: none; width: 36px; height: 36px; border-radius: var(--r);
+  align-items: center; justify-content: center;
+  color: var(--text-muted); background: var(--surface);
+  border: 1px solid var(--border);
+}
+#mobile-filter-btn svg { width: 16px; height: 16px; }
+
+/* ═══════════════════════════════════════════════════════════
+   VIEWS
+═══════════════════════════════════════════════════════════ */
+.view { display: none; }
+.view.active {
+  display: block;
+  animation: viewIn 0.22s ease both;
+}
+@keyframes viewIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════════════════ */
+.hero {
+  padding: 80px 0 60px;
+  border-bottom: 1px solid var(--border);
+}
+.hero-inner { max-width: 680px; margin: 0 auto; padding: 0 24px; text-align: center; }
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 18px;
+}
+.hero-sub {
+  font-size: 17px; color: var(--text-muted);
+  max-width: 520px; margin: 0 auto 36px;
+  line-height: 1.65;
+}
+.search-form { width: 100%; }
+.search-input-wrap {
+  display: flex; align-items: center;
+  gap: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 4px 4px 4px 14px;
+  transition: border-color .15s, box-shadow .15s;
+}
+.search-input-wrap:focus-within {
+  border-color: var(--accent-teal);
+  box-shadow: 0 0 0 3px rgba(46,196,182,.12);
+}
+.search-input-wrap > svg {
+  width: 17px; height: 17px;
+  color: var(--text-subtle); flex-shrink: 0;
+}
+.search-input-wrap input {
+  flex: 1; background: none; border: none; outline: none;
+  padding: 10px 12px;
+  font-size: 15px; color: var(--text);
+  min-width: 0;
+}
+.search-input-wrap input::placeholder { color: var(--text-subtle); }
+.btn { border-radius: 8px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; transition: all .15s; }
+.btn-primary {
+  background: var(--accent); color: #fff;
+  padding: 10px 22px; flex-shrink: 0;
+}
+.btn-primary:hover { background: #cc2936; }
+.btn-outline {
+  background: transparent; color: var(--text-muted);
+  border: 1px solid var(--border); padding: 8px 16px;
+}
+.btn-outline:hover { border-color: var(--border-hover); color: var(--text); background: var(--surface); }
+.search-chips {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 8px; margin-top: 16px;
+}
+.chip {
+  display: inline-flex; align-items: center;
+  padding: 6px 14px; border-radius: 999px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  font-size: 12px; font-weight: 500; color: var(--text-muted);
+  cursor: pointer; transition: all .15s;
+}
+.chip:hover { border-color: var(--accent-teal); color: var(--accent-teal); }
+
+/* ═══════════════════════════════════════════════════════════
+   ALERTS SECTION
+═══════════════════════════════════════════════════════════ */
+.alerts-section { padding: 56px 0; }
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 24px;
+}
+.section-header h2 {
+  font-family: var(--font-display);
+  font-size: 20px; font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.link-subtle {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 13px; color: var(--text-muted);
+  text-decoration: none; transition: color .15s;
+}
+.link-subtle:hover { color: var(--accent-teal); }
+.link-subtle svg { width: 14px; height: 14px; }
+.alerts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.alert-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 20px;
+  display: flex; flex-direction: column; gap: 14px;
+  transition: border-color .15s, box-shadow .15s;
+  cursor: default;
+}
+.alert-card:hover { border-color: var(--border-hover); box-shadow: var(--shadow); }
+.card-top { display: flex; align-items: flex-start; gap: 12px; }
+.avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: 13px; font-weight: 700;
+  flex-shrink: 0; color: #fff;
+}
+.avatar-high   { background: rgba(230,57,70,.25); color: var(--accent); }
+.avatar-mid    { background: rgba(244,162,97,.2); color: var(--accent-orange); }
+.avatar-low    { background: rgba(46,196,182,.18); color: var(--accent-teal); }
+.card-meta { flex: 1; min-width: 0; }
+.card-meta h3 { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.3; }
+.card-meta p  { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.score-badge {
+  flex-shrink: 0; width: 40px; height: 40px; border-radius: var(--r);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 15px; font-weight: 700;
+}
+.badge-high   { background: rgba(230,57,70,.15); color: var(--accent); border: 1px solid rgba(230,57,70,.25); }
+.badge-mid    { background: rgba(244,162,97,.15); color: var(--accent-orange); border: 1px solid rgba(244,162,97,.25); }
+.badge-low    { background: rgba(46,196,182,.12); color: var(--accent-teal); border: 1px solid rgba(46,196,182,.22); }
+.card-detail  { display: flex; align-items: center; justify-content: space-between; }
+.risk-tag {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 500; color: var(--accent);
+}
+.risk-tag svg { width: 13px; height: 13px; }
+.risk-mid { color: var(--accent-orange); }
+.risk-low { color: var(--accent-teal); }
+.time-tag { font-size: 11px; color: var(--text-subtle); }
+
+/* ═══════════════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════════════ */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 32px 0;
+  font-size: 13px; color: var(--text-muted);
+}
+.site-footer p + p { margin-top: 6px; }
+.footer-legal { font-size: 12px; color: var(--text-subtle); }
+
+/* ═══════════════════════════════════════════════════════════
+   BREADCRUMB
+═══════════════════════════════════════════════════════════ */
+.breadcrumb {
+  display: flex; align-items: center; gap: 6px;
+  padding: 14px 0; font-size: 13px; color: var(--text-muted);
+  border-bottom: 1px solid var(--border); margin-bottom: 0;
+}
+.breadcrumb a { color: var(--text-muted); text-decoration: none; }
+.breadcrumb a:hover { color: var(--text); }
+.breadcrumb svg { width: 12px; height: 12px; }
+.breadcrumb-current { color: var(--text); font-weight: 500; }
+
+/* ═══════════════════════════════════════════════════════════
+   RESULTS VIEW
+═══════════════════════════════════════════════════════════ */
+.results-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 0;
+  min-height: calc(100vh - var(--header-h));
+}
+/* SIDEBAR */
+.filters-sidebar {
+  border-right: 1px solid var(--border);
+  padding: 24px 20px;
+  position: sticky; top: var(--header-h);
+  height: calc(100vh - var(--header-h)); overflow-y: auto;
+}
+.filters-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px;
+}
+.filters-header h3 {
+  font-family: var(--font-display);
+  font-size: 13px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--text-subtle);
+}
+.filter-group { margin-bottom: 24px; }
+.filter-group-label {
+  font-size: 12px; font-weight: 600; color: var(--text-muted);
+  margin-bottom: 10px; display: block;
+}
+.filter-option {
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 0; cursor: pointer;
+  font-size: 13px; color: var(--text-muted);
+  transition: color .12s;
+}
+.filter-option:hover { color: var(--text); }
+.filter-option input[type="checkbox"] {
+  width: 14px; height: 14px; accent-color: var(--accent-teal);
+  cursor: pointer;
+}
+.filter-range { width: 100%; }
+.range-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-subtle); margin-top: 4px; }
+input[type="range"] {
+  width: 100%; accent-color: var(--accent-teal);
+  background: transparent; cursor: pointer;
+}
+select.filter-select {
+  width: 100%; background: var(--surface-2); border: 1px solid var(--border);
+  color: var(--text); border-radius: var(--r); padding: 7px 10px;
+  font-size: 13px; outline: none; cursor: pointer;
+}
+/* RESULTS MAIN */
+.results-main { padding: 24px; }
+.results-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.results-count { font-size: 13px; color: var(--text-muted); }
+.results-count strong { color: var(--text); font-weight: 600; }
+.results-sort { display: flex; align-items: center; gap: 8px; }
+.results-sort label { font-size: 13px; color: var(--text-muted); }
+.results-list { display: flex; flex-direction: column; gap: 8px; }
+.result-row {
+  display: grid;
+  grid-template-columns: 1fr 110px 80px;
+  align-items: center; gap: 16px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 16px 18px;
+  transition: border-color .15s, box-shadow .15s;
+}
+.result-row:hover { border-color: var(--border-hover); box-shadow: var(--shadow); }
+.result-info h4 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+.result-info .result-meta { font-size: 12px; color: var(--text-muted); }
+.result-info .result-dni {
+  font-family: var(--font-mono); font-size: 11px; color: var(--text-subtle);
+  margin-top: 2px; letter-spacing: 0.04em;
+}
+.result-score-col { text-align: center; }
+.result-score-val {
+  font-family: var(--font-mono); font-size: 22px; font-weight: 700;
+  display: block;
+}
+.score-bar {
+  height: 4px; border-radius: 2px;
+  background: var(--surface-2); overflow: hidden; margin-top: 5px;
+}
+.score-bar-fill { height: 100%; border-radius: 2px; transition: width .6s ease; }
+.fill-high   { background: var(--accent); }
+.fill-mid    { background: var(--accent-orange); }
+.fill-low    { background: var(--accent-teal); }
+.color-high  { color: var(--accent); }
+.color-mid   { color: var(--accent-orange); }
+.color-low   { color: var(--accent-teal); }
+.btn-view {
+  font-size: 12px; font-weight: 600; padding: 8px 16px;
+  border: 1px solid var(--border); border-radius: var(--r);
+  color: var(--text-muted); background: transparent;
+  transition: all .15s; white-space: nowrap;
+}
+.btn-view:hover { border-color: var(--accent-teal); color: var(--accent-teal); background: rgba(46,196,182,.06); }
+/* PAGINATION */
+.pagination { display: flex; align-items: center; justify-content: center; gap: 4px; margin-top: 32px; }
+.page-btn {
+  min-width: 36px; height: 36px; border-radius: var(--r);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 500; color: var(--text-muted);
+  border: 1px solid var(--border); background: transparent;
+  transition: all .15s;
+}
+.page-btn:hover { border-color: var(--border-hover); color: var(--text); }
+.page-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.page-btn.dots { border: none; }
+.page-btn svg { width: 15px; height: 15px; }
+
+/* ═══════════════════════════════════════════════════════════
+   PROFILE VIEW
+═══════════════════════════════════════════════════════════ */
+.profile-layout { max-width: 900px; margin: 0 auto; padding: 32px 24px 64px; }
+
+/* Profile header */
+.profile-identity {
+  display: flex; align-items: flex-start; gap: 20px;
+  padding-bottom: 28px; border-bottom: 1px solid var(--border); margin-bottom: 32px;
+}
+.profile-avatar {
+  width: 64px; height: 64px; border-radius: 50%;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: 20px; font-weight: 700;
+  background: rgba(230,57,70,.18); color: var(--accent);
+  border: 2px solid rgba(230,57,70,.25);
+}
+.profile-info { flex: 1; min-width: 0; }
+.profile-name {
+  font-family: var(--font-display);
+  font-size: 26px; font-weight: 800; letter-spacing: -0.02em;
+  color: var(--text); line-height: 1.15; margin-bottom: 6px;
+}
+.profile-role { font-size: 15px; color: var(--text-muted); margin-bottom: 4px; }
+.profile-period { font-size: 13px; color: var(--text-subtle); }
+.profile-ier { text-align: right; flex-shrink: 0; }
+.ier-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-subtle); margin-bottom: 4px; }
+.ier-value {
+  font-family: var(--font-mono); font-size: 40px; font-weight: 700;
+  line-height: 1; display: block;
+}
+.ier-of100 { font-size: 16px; color: var(--text-muted); }
+.profile-actions { display: flex; gap: 8px; margin-top: 10px; }
+.btn-action {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border-radius: var(--r);
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  border: 1px solid var(--border); background: transparent;
+  color: var(--text-muted); transition: all .15s;
+}
+.btn-action:hover { border-color: var(--border-hover); color: var(--text); }
+.btn-action svg { width: 14px; height: 14px; }
+
+/* Score gauges */
+.score-breakdown { margin-bottom: 40px; }
+.score-breakdown h2 { font-family: var(--font-display); font-size: 16px; font-weight: 700; margin-bottom: 20px; }
+.gauges-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.gauge-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 20px;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+}
+.gauge-svg { width: 88px; height: 88px; }
+.gauge-track { fill: none; stroke: var(--surface-2); stroke-width: 7; }
+.gauge-fill  { fill: none; stroke-width: 7; stroke-linecap: round; transform: rotate(-90deg); transform-origin: 44px 44px; transition: stroke-dasharray .7s ease; }
+.gauge-fill.g-high   { stroke: var(--accent); }
+.gauge-fill.g-mid    { stroke: var(--accent-orange); }
+.gauge-fill.g-low    { stroke: var(--accent-teal); }
+.gauge-number { font-family: var(--font-mono); font-size: 20px; font-weight: 700; fill: var(--text); }
+.gauge-unit   { font-size: 11px; fill: var(--text-subtle); font-family: var(--font-body); }
+.gauge-info { text-align: center; }
+.gauge-dim  { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.gauge-desc { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+
+/* Section headings */
+.profile-section { margin-bottom: 40px; }
+.profile-section-title {
+  font-family: var(--font-display);
+  font-size: 16px; font-weight: 700;
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+.profile-section-title svg { width: 16px; height: 16px; color: var(--text-muted); }
+
+/* Data tables */
+.data-table-wrap { overflow-x: auto; border-radius: var(--r-lg); border: 1px solid var(--border); }
+.data-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 13px;
+}
+.data-table th {
+  background: var(--surface-2); padding: 10px 14px;
+  text-align: left; font-weight: 600; font-size: 11px;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--text-subtle); border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.data-table td {
+  padding: 12px 14px; border-bottom: 1px solid var(--border);
+  color: var(--text); vertical-align: middle;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: rgba(255,255,255,.02); }
+[data-theme="light"] .data-table tr:hover td { background: rgba(0,0,0,.015); }
+.td-muted { color: var(--text-muted) !important; }
+.td-mono  { font-family: var(--font-mono); font-size: 12px; }
+.td-amount { font-family: var(--font-mono); font-weight: 600; text-align: right; }
+.alert-flag {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 500; white-space: nowrap;
+}
+.flag-warn { color: var(--accent-orange); }
+.flag-ok   { color: var(--accent-teal); }
+.alert-flag svg { width: 12px; height: 12px; }
+.table-summary {
+  display: flex; gap: 24px; padding: 12px 14px;
+  background: var(--surface-2); border-top: 1px solid var(--border);
+  font-size: 12px; color: var(--text-muted);
+  border-radius: 0 0 var(--r-lg) var(--r-lg);
+}
+.table-summary strong { color: var(--text); font-weight: 600; }
+
+/* Timeline */
+.timeline { position: relative; padding-left: 24px; }
+.timeline::before {
+  content: ''; position: absolute; left: 6px; top: 6px; bottom: 6px;
+  width: 1px; background: var(--border);
+}
+.timeline-item {
+  position: relative; padding: 0 0 24px 16px;
+}
+.timeline-item::before {
+  content: ''; position: absolute; left: -18px; top: 5px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--surface-2); border: 2px solid var(--border);
+}
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-period { font-size: 11px; font-weight: 600; letter-spacing: 0.04em; color: var(--text-subtle); margin-bottom: 3px; }
+.timeline-role { font-size: 14px; font-weight: 600; color: var(--text); }
+.timeline-place { font-size: 13px; color: var(--text-muted); }
+.timeline-alert {
+  display: flex; align-items: flex-start; gap: 6px;
+  margin-top: 12px; padding: 10px 12px;
+  background: rgba(244,162,97,.08); border: 1px solid rgba(244,162,97,.2);
+  border-radius: var(--r); font-size: 12px; color: var(--accent-orange);
+}
+.timeline-alert svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 1px; }
+
+/* Accordion */
+.accordion-item {
+  border: 1px solid var(--border); border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.accordion-trigger {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 18px;
+  background: var(--surface); color: var(--text);
+  font-size: 14px; font-weight: 600; cursor: pointer;
+  transition: background .15s;
+}
+.accordion-trigger:hover { background: var(--surface-2); }
+.accordion-trigger svg { width: 16px; height: 16px; color: var(--text-muted); transition: transform .2s; }
+.accordion-trigger[aria-expanded="true"] svg { transform: rotate(180deg); }
+.accordion-panel {
+  display: none; padding: 16px 18px;
+  background: var(--surface); border-top: 1px solid var(--border);
+  font-size: 13px; color: var(--text-muted); line-height: 1.65;
+}
+.accordion-panel.open { display: block; }
+.accordion-panel p + p { margin-top: 8px; }
+
+/* Related cards */
+.related-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+.related-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 14px;
+  cursor: pointer; transition: all .15s; text-decoration: none;
+}
+.related-card:hover { border-color: var(--border-hover); box-shadow: var(--shadow); }
+.related-card:hover { text-decoration: none; }
+.related-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+.related-role { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; }
+.related-badge { display: inline-flex; }
+
+/* Toast */
+#toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 10px 18px; border-radius: var(--r); font-size: 13px;
+  color: var(--text); box-shadow: var(--shadow-lg);
+  transition: transform .25s ease, opacity .25s ease;
+  opacity: 0; pointer-events: none; z-index: 9999; white-space: nowrap;
+}
+#toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+/* ═══════════════════════════════════════════════════════════
+   MOBILE OVERLAY (filter sidebar)
+═══════════════════════════════════════════════════════════ */
+.sidebar-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.5); z-index: 99;
+}
+.sidebar-overlay.open { display: block; }
+#close-filters-btn {
+  display: none; width: 32px; height: 32px;
+  align-items: center; justify-content: center;
+  border-radius: var(--r); background: var(--surface-2);
+  border: 1px solid var(--border); color: var(--text-muted);
+}
+#close-filters-btn svg { width: 15px; height: 15px; }
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .alerts-grid   { grid-template-columns: 1fr; }
+  .gauges-row    { grid-template-columns: 1fr; }
+  .related-grid  { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  .header-nav { display: none; }
+  #mobile-filter-btn { display: flex; }
+
+  .results-layout { grid-template-columns: 1fr; }
+  .filters-sidebar {
+    position: fixed; inset: 0 auto 0 0; width: min(280px, 80vw);
+    z-index: 100; height: 100vh; top: 0;
+    background: var(--surface); border-right: 1px solid var(--border);
+    transform: translateX(-100%); transition: transform .25s ease;
+    overflow-y: auto; padding: 20px;
+  }
+  .filters-sidebar.mobile-open { transform: translateX(0); }
+  #close-filters-btn { display: flex; }
+
+  .result-row { grid-template-columns: 1fr 80px; }
+  .result-row .btn-view { display: none; }
+
+  .profile-identity { flex-direction: column; }
+  .profile-ier { text-align: left; }
+  .profile-layout { padding: 24px 16px 48px; }
+
+  .hero { padding: 48px 0 40px; }
+  .hero-title { font-size: 2rem; }
+}
+@media (max-width: 480px) {
+  .search-input-wrap { flex-wrap: wrap; padding: 8px 12px; gap: 8px; }
+  .search-input-wrap > svg { display: none; }
+  .search-input-wrap input { width: 100%; padding: 6px 0; }
+  .btn-primary { width: 100%; justify-content: center; }
+  .related-grid { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════ HEADER ══════════════════════ -->
+<header id="site-header">
+  <div class="header-inner">
+    <a href="#home" class="logo-link" aria-label="Garendil — Inicio">
+      <svg class="logo-mark" width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+        <circle cx="13" cy="19" r="2.8" fill="currentColor"/>
+        <circle cx="4"  cy="8"  r="2.2" fill="currentColor" opacity=".75"/>
+        <circle cx="22" cy="8"  r="2.2" fill="currentColor" opacity=".75"/>
+        <line x1="13" y1="19" x2="4"  y2="8"  stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        <line x1="13" y1="19" x2="22" y2="8"  stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        <line x1="4"  y1="8"  x2="22" y2="8"  stroke="currentColor" stroke-width="1.1" stroke-linecap="round" opacity=".4"/>
+      </svg>
+      <span class="logo-text">GARENDIL</span>
+    </a>
+
+    <nav class="header-nav" aria-label="Navegación principal">
+      <a href="#" target="_blank" rel="noopener noreferrer">Cómo funciona</a>
+      <a href="#" target="_blank" rel="noopener noreferrer">Metodología</a>
+      <a href="https://github.com/garendil" target="_blank" rel="noopener noreferrer">
+        <i data-lucide="github" aria-hidden="true"></i>
+        Open Source
+      </a>
+    </nav>
+
+    <div class="header-actions">
+      <button id="theme-toggle" aria-label="Cambiar tema">
+        <i data-lucide="sun"  class="icon-light" aria-hidden="true"></i>
+        <i data-lucide="moon" class="icon-dark"  aria-hidden="true"></i>
+      </button>
+      <button id="mobile-filter-btn" aria-label="Mostrar filtros">
+        <i data-lucide="sliders-horizontal" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════════ VIEW: HOME ══════════════════════ -->
+<div id="view-home" class="view">
+  <main>
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero-inner">
+        <h1 id="hero-heading" class="hero-title">
+          Transparencia sobre<br>quién nos gobierna
+        </h1>
+        <p class="hero-sub">
+          Consulta el perfil de riesgo de cualquier funcionario público peruano.
+          Datos de OSCE, Portal MEF y Contraloría. Actualización diaria.
+        </p>
+
+        <form class="search-form" id="home-search" role="search" onsubmit="handleSearch(event)">
+          <div class="search-input-wrap">
+            <i data-lucide="search" aria-hidden="true"></i>
+            <input
+              type="search"
+              id="search-input-home"
+              placeholder="Nombre del funcionario, DNI o institución"
+              aria-label="Buscar funcionario"
+              autocomplete="off"
+            />
+            <button type="submit" class="btn btn-primary">Buscar</button>
+          </div>
+        </form>
+
+        <div class="search-chips" role="list">
+          <button class="chip" role="listitem" onclick="navigate('results')">MTC — Ministerio de Transportes</button>
+          <button class="chip" role="listitem" onclick="navigate('results')">OSCE — Contrataciones</button>
+          <button class="chip" role="listitem" onclick="navigate('results')">Gobierno Regional Junín</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="alerts-section" aria-labelledby="alerts-heading">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="alerts-heading">Últimas alertas</h2>
+          <a href="#results" class="link-subtle">
+            Ver todos <i data-lucide="arrow-right" aria-hidden="true"></i>
+          </a>
+        </div>
+        <div class="alerts-grid">
+
+          <article class="alert-card">
+            <div class="card-top">
+              <div class="avatar avatar-high" aria-hidden="true">RQ</div>
+              <div class="card-meta">
+                <h3>Roberto Quispe Mamani</h3>
+                <p>Gerente de Logística · Gob. Regional Cusco</p>
+              </div>
+              <span class="score-badge badge-high" aria-label="IER 84 de 100">84</span>
+            </div>
+            <div class="card-detail">
+              <span class="risk-tag">
+                <i data-lucide="alert-triangle" aria-hidden="true"></i>
+                Contratos irregulares
+              </span>
+              <span class="time-tag">hace 2 días</span>
+            </div>
+          </article>
+
+          <article class="alert-card">
+            <div class="card-top">
+              <div class="avatar avatar-mid" aria-hidden="true">CD</div>
+              <div class="card-meta">
+                <h3>Carmen Delgado Rivas</h3>
+                <p>Jefa de Adquisiciones · MTC</p>
+              </div>
+              <span class="score-badge badge-mid" aria-label="IER 67 de 100">67</span>
+            </div>
+            <div class="card-detail">
+              <span class="risk-tag risk-mid">
+                <i data-lucide="alert-circle" aria-hidden="true"></i>
+                Perfil-cargo mismatch
+              </span>
+              <span class="time-tag">hace 5 días</span>
+            </div>
+          </article>
+
+          <article class="alert-card">
+            <div class="card-top">
+              <div class="avatar avatar-low" aria-hidden="true">JH</div>
+              <div class="card-meta">
+                <h3>Jorge Huamán Torres</h3>
+                <p>Director Regional · MINEDU Junín</p>
+              </div>
+              <span class="score-badge badge-low" aria-label="IER 31 de 100">31</span>
+            </div>
+            <div class="card-detail">
+              <span class="risk-tag risk-low">
+                <i data-lucide="info" aria-hidden="true"></i>
+                Competencia limitada
+              </span>
+              <span class="time-tag">hace 8 días</span>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>
+        Datos obtenidos de OSCE, Portal Transparencia MEF, Contraloría General.
+        Actualización diaria.
+        <a href="https://github.com/garendil/garendil" target="_blank" rel="noopener noreferrer">Código abierto en GitHub</a>.
+      </p>
+      <p class="footer-legal">
+        El IER es un indicador estadístico basado en fuentes abiertas del Estado Peruano.
+        No constituye imputación legal ni dictamen judicial.
+        Ley N°27806 · Ley N°29733.
+      </p>
+    </div>
+  </footer>
+</div>
+
+<!-- ══════════════════════ VIEW: RESULTS ══════════════════════ -->
+<div id="view-results" class="view">
+
+  <!-- Mobile sidebar overlay -->
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+  <div class="container-wide" style="padding-top:0; padding-bottom:0;">
+    <nav aria-label="Breadcrumb" class="breadcrumb">
+      <a href="#home">Inicio</a>
+      <i data-lucide="chevron-right" aria-hidden="true"></i>
+      <span class="breadcrumb-current">Resultados para "MTC"</span>
+    </nav>
+  </div>
+
+  <div class="results-layout container-wide" style="padding-top:0; padding-bottom:0; max-width:100%; margin:0;">
+    <div style="max-width:1280px; margin:0 auto; width:100%; display:grid; grid-template-columns:240px 1fr;">
+
+      <!-- SIDEBAR -->
+      <aside class="filters-sidebar" id="filters-sidebar" aria-label="Filtros de búsqueda">
+        <div class="filters-header">
+          <h3>Filtros</h3>
+          <button id="close-filters-btn" aria-label="Cerrar filtros" onclick="closeSidebar()">
+            <i data-lucide="x" aria-hidden="true"></i>
+          </button>
+        </div>
+
+        <div class="filter-group">
+          <span class="filter-group-label">Institución</span>
+          <label class="filter-option"><input type="checkbox" checked aria-label="MTC"/> MTC</label>
+          <label class="filter-option"><input type="checkbox" aria-label="MEF"/> MEF</label>
+          <label class="filter-option"><input type="checkbox" aria-label="Contraloría"/> Contraloría</label>
+          <label class="filter-option"><input type="checkbox" aria-label="MINEDU"/> MINEDU</label>
+        </div>
+
+        <div class="filter-group">
+          <span class="filter-group-label">Rango IER</span>
+          <input type="range" min="0" max="100" value="0" class="filter-range" aria-label="IER mínimo"/>
+          <div class="range-labels"><span>0</span><span>100</span></div>
+        </div>
+
+        <div class="filter-group">
+          <span class="filter-group-label">Dimensión de riesgo</span>
+          <label class="filter-option"><input type="checkbox" checked aria-label="Corrupción"/> Corrupción</label>
+          <label class="filter-option"><input type="checkbox" checked aria-label="Competencia"/> Competencia</label>
+          <label class="filter-option"><input type="checkbox" checked aria-label="Adecuación al cargo"/> Adecuación</label>
+        </div>
+
+        <div class="filter-group">
+          <span class="filter-group-label">Cargo</span>
+          <select class="filter-select" aria-label="Filtrar por cargo">
+            <option>Todos los cargos</option>
+            <option>Director General</option>
+            <option>Gerente</option>
+            <option>Jefe de área</option>
+            <option>Especialista</option>
+          </select>
+        </div>
+      </aside>
+
+      <!-- RESULTS MAIN -->
+      <main class="results-main" aria-label="Lista de funcionarios">
+        <div class="results-toolbar">
+          <p class="results-count">
+            <strong>8</strong> funcionarios encontrados en MTC
+          </p>
+          <div class="results-sort">
+            <label for="sort-select">Ordenar por</label>
+            <select id="sort-select" class="filter-select" style="width:auto; padding:5px 10px; font-size:12px;">
+              <option>IER más alto</option>
+              <option>IER más bajo</option>
+              <option>Nombre A–Z</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="results-list" role="list">
+
+          <!-- Row template: name, dni, role/inst, score, bar, button -->
+          <div class="result-row" role="listitem">
+            <div class="result-info">
+              <h4>Ana María Castillo Paredes</h4>
+              <p class="result-meta">Directora General · MTC</p>
+              <p class="result-dni">DNI ······234</p>
+            </div>
+            <div class="result-score-col">
+              <span class="result-score-val color-high">78</span>
+              <div class="score-bar"><div class="score-bar-fill fill-high" style="width:78%"></div></div>
+            </div>
+            <button class="btn-view" onclick="navigate('profile')" aria-label="Ver perfil de Ana María Castillo Paredes">Ver perfil</button>
+          </div>
+
+          <div class="result-row" role="listitem">
+            <div class="result-info">
+              <h4>Luis Enrique Vargas Ríos</h4>
+              <p class="result-meta">Gerente de Infraestructura · MTC</p>
+              <p class="result-dni">DNI ······891</p>
+            </div>
+            <div class="result-score-col">
+              <span class="result-score-val color-high">72</span>
+              <div class="score-bar"><div class="score-bar-fill fill-high" style="width:72%"></div></div>
+            </div>
+            <button class="btn-view" onclick="navigate('profile')" aria-label="Ver perfil de Luis Enrique Vargas Ríos">Ver perfil</button>
+          </div>
+
+          <div class="result-row" role="listitem">
+            <div class="result-info">
+              <h4>Patricia Soto Mendoza</h4>
+              <p class="result-meta">Jefa de Contratos · MTC</p>
+              <p class="result-dni">DNI ······567</p>
+            </div>
+            <div class="result-score-col">
+              <span class="result-score-val color-mid">61</span>
+              <div class="score-bar"><div class="score-bar-fill fill-mid" style="width:61%"></div></div>
+            </div>
+            <button class="btn-view" onclick="navigate('profile')" aria-label="Ver perfil de Patricia Soto Mendoza">Ver perfil</button>
+          </div>
+
+          <div class="result-row" role="listitem">
+            <div class="result-info">
+              <h4>Carlos Neyra Bustamante</h4>
+              <p class="result-meta">Subdirector Técnico · MTC</p>
+              <p class="result-dni">DNI ······123</p>
+            </div>
+            <div class="result-score-col">
+              <span class="result-score-val color-mid">55</span>
+              <div class="score-bar"><div class="score-bar-fill fill-mid" style="width:55%"></div></div>
+            </div>
+            <button class="btn-view" onclick="navigate('profile')" aria-label="Ver perfil de Carlos Neyra Bustamante">Ver perfil</button>
+          </div>
+
+          <div class="result-row" role="listitem">
+            <div class="result-info">
+              <h4>Rosa Huanca Quispe</h4>
+              <p class="result-meta">Especialista Senior · MTC</p>
+              <p class="result-dni">DNI ······445</p>
+            </div>
+            <div class="result-score-col">
+              <span class="result-score-val color-mid">43</span>
+              <div class="score-bar"><div class="score-bar-fill fill-mid" style="width:43%"></div></div>
+            </div>
+            <button class="btn-view" onclick="navigate('profile')" aria-label="Ver perfil de Rosa Huanca Quispe">Ver perfil</button>
+          </div>
+
+          <div class="result-row" role="listitem">
+            <div class="result-info">
+              <h4>Manuel Díaz Cortez</h4>
+              <p class="result-meta">Analista de Proyectos · MTC</p>
+              <p class="result-dni">DNI ······778</p>
+            </div>
+            <div class="result-score-col">
+              <span class="result-score-val color-low">38</span>
+              <div class="score-bar"><div class="score-bar-fill fill-low" style="width:38%"></div></div>
+            </div>
+            <button class="btn-view" onclick="navigate('profile')" aria-label="Ver perfil de Manuel Díaz Cortez">Ver perfil</button>
+          </div>
+
+          <div class="result-row" role="listitem">
+            <div class="result-info">
+              <h4>Sofía Reyes Alvarado</h4>
+              <p class="result-meta">Coordinadora ETL · MTC</p>
+              <p class="result-dni">DNI ······992</p>
+            </div>
+            <div class="result-score-col">
+              <span class="result-score-val color-low">22</span>
+              <div class="score-bar"><div class="score-bar-fill fill-low" style="width:22%"></div></div>
+            </div>
+            <button class="btn-view" onclick="navigate('profile')" aria-label="Ver perfil de Sofía Reyes Alvarado">Ver perfil</button>
+          </div>
+
+          <div class="result-row" role="listitem">
+            <div class="result-info">
+              <h4>David Ticona Flores</h4>
+              <p class="result-meta">Asistente Administrativo · MTC</p>
+              <p class="result-dni">DNI ······301</p>
+            </div>
+            <div class="result-score-col">
+              <span class="result-score-val color-low">15</span>
+              <div class="score-bar"><div class="score-bar-fill fill-low" style="width:15%"></div></div>
+            </div>
+            <button class="btn-view" onclick="navigate('profile')" aria-label="Ver perfil de David Ticona Flores">Ver perfil</button>
+          </div>
+
+        </div><!-- /results-list -->
+
+        <nav class="pagination" aria-label="Paginación">
+          <button class="page-btn" aria-label="Página anterior" disabled>
+            <i data-lucide="chevron-left" aria-hidden="true"></i>
+          </button>
+          <button class="page-btn active" aria-label="Página 1" aria-current="page">1</button>
+          <button class="page-btn" aria-label="Página 2">2</button>
+          <button class="page-btn" aria-label="Página 3">3</button>
+          <button class="page-btn dots" aria-hidden="true">…</button>
+          <button class="page-btn" aria-label="Última página">9</button>
+          <button class="page-btn" aria-label="Página siguiente">
+            <i data-lucide="chevron-right" aria-hidden="true"></i>
+          </button>
+        </nav>
+
+      </main>
+    </div><!-- /grid -->
+  </div><!-- /container-wide -->
+</div><!-- /view-results -->
+
+<!-- ══════════════════════ VIEW: PROFILE ══════════════════════ -->
+<div id="view-profile" class="view">
+  <div class="container">
+    <nav aria-label="Breadcrumb" class="breadcrumb">
+      <a href="#home">Inicio</a>
+      <i data-lucide="chevron-right" aria-hidden="true"></i>
+      <a href="#results">Resultados</a>
+      <i data-lucide="chevron-right" aria-hidden="true"></i>
+      <span class="breadcrumb-current">Ana María Castillo Paredes</span>
+    </nav>
+  </div>
+
+  <div class="profile-layout">
+
+    <!-- ── Identity ── -->
+    <header class="profile-identity">
+      <div class="profile-avatar" aria-hidden="true">AM</div>
+
+      <div class="profile-info">
+        <h1 class="profile-name">Ana María Castillo Paredes</h1>
+        <p class="profile-role">Directora General — Ministerio de Transportes y Comunicaciones</p>
+        <p class="profile-period">2021 — presente</p>
+        <div class="profile-actions">
+          <button class="btn-action" aria-label="Descargar reporte PDF (no disponible en demo)">
+            <i data-lucide="download" aria-hidden="true"></i>
+            Descargar reporte
+          </button>
+          <button class="btn-action" id="share-btn" aria-label="Copiar enlace al perfil">
+            <i data-lucide="link" aria-hidden="true"></i>
+            Compartir
+          </button>
+        </div>
+      </div>
+
+      <div class="profile-ier">
+        <p class="ier-label">IER</p>
+        <span class="ier-value color-high">78<span class="ier-of100">/100</span></span>
+        <div style="margin-top:6px;">
+          <span class="score-badge badge-high" style="width:auto; padding:4px 10px; font-size:12px;">Riesgo Alto</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── Score Gauges ── -->
+    <section class="profile-section score-breakdown" aria-labelledby="breakdown-heading">
+      <h2 id="breakdown-heading" class="profile-section-title">
+        <i data-lucide="bar-chart-2" aria-hidden="true"></i>
+        Desglose por dimensión
+      </h2>
+      <div class="gauges-row">
+
+        <div class="gauge-card">
+          <!-- r=34, C=2π*34=213.6. 82% → 175.2 -->
+          <svg class="gauge-svg" viewBox="0 0 88 88" aria-hidden="true">
+            <circle class="gauge-track" cx="44" cy="44" r="34"/>
+            <circle class="gauge-fill g-high" cx="44" cy="44" r="34" stroke-dasharray="175.2 213.6"/>
+            <text x="44" y="40" text-anchor="middle" dominant-baseline="middle" class="gauge-number" style="font-size:18px;font-family:ui-monospace,monospace;font-weight:700;fill:var(--text)">82</text>
+            <text x="44" y="57" text-anchor="middle" class="gauge-unit">/100</text>
+          </svg>
+          <div class="gauge-info">
+            <p class="gauge-dim">Corrupción</p>
+            <p class="gauge-desc">3 contratos con irregularidades detectadas</p>
+          </div>
+        </div>
+
+        <div class="gauge-card">
+          <!-- r=34, C=213.6. 71% → 151.7 -->
+          <svg class="gauge-svg" viewBox="0 0 88 88" aria-hidden="true">
+            <circle class="gauge-track" cx="44" cy="44" r="34"/>
+            <circle class="gauge-fill g-mid" cx="44" cy="44" r="34" stroke-dasharray="151.7 213.6"/>
+            <text x="44" y="40" text-anchor="middle" dominant-baseline="middle" class="gauge-number" style="font-size:18px;font-family:ui-monospace,monospace;font-weight:700;fill:var(--text)">71</text>
+            <text x="44" y="57" text-anchor="middle" class="gauge-unit">/100</text>
+          </svg>
+          <div class="gauge-info">
+            <p class="gauge-dim">Competencia</p>
+            <p class="gauge-desc">Formación parcialmente alineada al cargo</p>
+          </div>
+        </div>
+
+        <div class="gauge-card">
+          <!-- r=34, C=213.6. 58% → 123.9 -->
+          <svg class="gauge-svg" viewBox="0 0 88 88" aria-hidden="true">
+            <circle class="gauge-track" cx="44" cy="44" r="34"/>
+            <circle class="gauge-fill g-low" cx="44" cy="44" r="34" stroke-dasharray="123.9 213.6"/>
+            <text x="44" y="40" text-anchor="middle" dominant-baseline="middle" class="gauge-number" style="font-size:18px;font-family:ui-monospace,monospace;font-weight:700;fill:var(--text)">58</text>
+            <text x="44" y="57" text-anchor="middle" class="gauge-unit">/100</text>
+          </svg>
+          <div class="gauge-info">
+            <p class="gauge-dim">Adecuación al cargo</p>
+            <p class="gauge-desc">Experiencia en sector privado no relacionado</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Contratos ── -->
+    <section class="profile-section" aria-labelledby="contratos-heading">
+      <h2 id="contratos-heading" class="profile-section-title">
+        <i data-lucide="file-text" aria-hidden="true"></i>
+        Contratos públicos
+      </h2>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th scope="col">Entidad</th>
+              <th scope="col">Objeto</th>
+              <th scope="col" style="text-align:right">Monto (S/)</th>
+              <th scope="col">Año</th>
+              <th scope="col">Alerta</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="td-muted">MTC</td>
+              <td>Consultoría Supervisión Carretera Lima-Ica</td>
+              <td class="td-amount">2,340,000</td>
+              <td class="td-mono td-muted">2023</td>
+              <td><span class="alert-flag flag-warn"><i data-lucide="alert-triangle" aria-hidden="true"></i> Adjudicación directa</span></td>
+            </tr>
+            <tr>
+              <td class="td-muted">MTC</td>
+              <td>Estudios de Pre-inversión</td>
+              <td class="td-amount">890,000</td>
+              <td class="td-mono td-muted">2022</td>
+              <td><span class="alert-flag flag-ok"><i data-lucide="check" aria-hidden="true"></i> Normal</span></td>
+            </tr>
+            <tr>
+              <td class="td-muted">PROVIAS</td>
+              <td>Supervisión Obra Puente Km 42</td>
+              <td class="td-amount">1,120,000</td>
+              <td class="td-mono td-muted">2022</td>
+              <td><span class="alert-flag flag-warn"><i data-lucide="alert-triangle" aria-hidden="true"></i> Empresa vinculada</span></td>
+            </tr>
+            <tr>
+              <td class="td-muted">MEF</td>
+              <td>Consultoría Regulatoria</td>
+              <td class="td-amount">340,000</td>
+              <td class="td-mono td-muted">2021</td>
+              <td><span class="alert-flag flag-ok"><i data-lucide="check" aria-hidden="true"></i> Normal</span></td>
+            </tr>
+            <tr>
+              <td class="td-muted">MTC</td>
+              <td>Análisis de Impacto Vial</td>
+              <td class="td-amount">560,000</td>
+              <td class="td-mono td-muted">2021</td>
+              <td><span class="alert-flag flag-ok"><i data-lucide="check" aria-hidden="true"></i> Normal</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="table-summary">
+          <span>Total contratos: <strong>5</strong></span>
+          <span>Monto total: <strong>S/ 5,250,000</strong></span>
+          <span style="color:var(--accent-orange)">Alertas: <strong>2</strong></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Trayectoria ── -->
+    <section class="profile-section" aria-labelledby="trayectoria-heading">
+      <h2 id="trayectoria-heading" class="profile-section-title">
+        <i data-lucide="git-branch" aria-hidden="true"></i>
+        Trayectoria profesional
+      </h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <p class="timeline-period">2021 — presente</p>
+          <p class="timeline-role">Directora General</p>
+          <p class="timeline-place">Ministerio de Transportes y Comunicaciones</p>
+        </div>
+        <div class="timeline-item">
+          <p class="timeline-period">2018 — 2021</p>
+          <p class="timeline-role">Gerente Comercial</p>
+          <p class="timeline-place">Constructora Privada XYZ S.A.C.</p>
+        </div>
+        <div class="timeline-item">
+          <p class="timeline-period">2015 — 2018</p>
+          <p class="timeline-role">Consultora Independiente</p>
+          <p class="timeline-place">Sector Infraestructura</p>
+        </div>
+        <div class="timeline-item">
+          <p class="timeline-period">2010 — 2015</p>
+          <p class="timeline-role">Analista Senior</p>
+          <p class="timeline-place">Banco de la Nación</p>
+        </div>
+      </div>
+      <div class="timeline-alert" role="note">
+        <i data-lucide="alert-triangle" aria-hidden="true"></i>
+        <span>Gap de 3 años en sector privado (2018–2021) sin relación directa con el cargo público actual</span>
+      </div>
+    </section>
+
+    <!-- ── Procesos ── -->
+    <section class="profile-section" aria-labelledby="procesos-heading">
+      <h2 id="procesos-heading" class="profile-section-title">
+        <i data-lucide="gavel" aria-hidden="true"></i>
+        Procesos judiciales y sanciones
+      </h2>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th scope="col">Tipo</th>
+              <th scope="col">Entidad</th>
+              <th scope="col">Año</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Detalle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Proceso Administrativo</td>
+              <td class="td-muted">Contraloría General</td>
+              <td class="td-mono td-muted">2022</td>
+              <td><span class="alert-flag flag-warn"><i data-lucide="clock" aria-hidden="true"></i> En investigación</span></td>
+              <td class="td-muted" style="font-size:12px;">Irregularidades en contratación directa</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── Metodología (accordion) ── -->
+    <section class="profile-section" aria-labelledby="metodologia-heading">
+      <h2 id="metodologia-heading" class="profile-section-title">
+        <i data-lucide="book-open" aria-hidden="true"></i>
+        Metodología del score
+      </h2>
+      <div class="accordion-item">
+        <button class="accordion-trigger" aria-expanded="false" aria-controls="accordion-panel">
+          Cómo se calcula el IER
+          <i data-lucide="chevron-down" aria-hidden="true"></i>
+        </button>
+        <div class="accordion-panel" id="accordion-panel" role="region">
+          <p>El <strong>Índice de Exposición al Riesgo (IER)</strong> agrega tres dimensiones de análisis usando una arquitectura de capas:</p>
+          <p><strong>Capa 1 — Reglas explícitas (70%):</strong> Umbrales deterministas basados en indicadores objetivos: contratos con exoneración, sanciones de Contraloría, discrepancias patrimoniales declaradas y concentración de contratos con un mismo proveedor.</p>
+          <p><strong>Capa 2 — Anomaly Detection (30%):</strong> Isolation Forest entrenado sobre el histórico de contratos. Detecta patrones estadísticamente anómalos sin necesitar datos etiquetados previos.</p>
+          <p><strong>Capa 3 — ML Supervisado (en desarrollo):</strong> Random Forest sobre casos etiquetados del Poder Judicial. Activación pendiente: requiere ≥50 muestras etiquetadas.</p>
+          <p>Fuentes de datos: OSCE/SEACE, Portal MEF Transparencia, Contraloría General, SERVIR. <strong>Última actualización: 28 mayo 2026.</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Relacionados ── -->
+    <section class="profile-section" aria-labelledby="relacionados-heading">
+      <h2 id="relacionados-heading" class="profile-section-title">
+        <i data-lucide="network" aria-hidden="true"></i>
+        Funcionarios relacionados
+      </h2>
+      <div class="related-grid">
+
+        <a href="#profile" class="related-card" onclick="navigate('profile')">
+          <p class="related-name">Luis Vargas Ríos</p>
+          <p class="related-role">Gerente de Infraestructura · MTC</p>
+          <span class="score-badge badge-high related-badge" aria-label="IER 72">72</span>
+        </a>
+
+        <a href="#profile" class="related-card" onclick="navigate('profile')">
+          <p class="related-name">Patricia Soto Mendoza</p>
+          <p class="related-role">Jefa de Contratos · MTC</p>
+          <span class="score-badge badge-mid related-badge" aria-label="IER 61">61</span>
+        </a>
+
+        <div class="related-card" style="cursor:default">
+          <p class="related-name" style="color:var(--text-muted);">Constructora XYZ S.A.C.</p>
+          <p class="related-role">Proveedor recurrente · RUC ··········01</p>
+          <span style="font-size:11px; color:var(--text-subtle); margin-top:8px; display:block;">3 contratos adjudicados</span>
+        </div>
+
+      </div>
+    </section>
+
+  </div><!-- /profile-layout -->
+</div><!-- /view-profile -->
+
+<!-- ══════════════════════ TOAST ══════════════════════ -->
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ── Router ────────────────────────────────────────────── */
+const VIEWS = ['home', 'results', 'profile'];
+
+function showView(name) {
+  const valid = VIEWS.includes(name) ? name : 'home';
+  VIEWS.forEach(v => {
+    const el = document.getElementById('view-' + v);
+    if (el) el.classList.remove('active');
+  });
+  const target = document.getElementById('view-' + valid);
+  if (target) {
+    target.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+  lucide.createIcons();
+}
+
+function navigate(view) {
+  window.location.hash = view;
+}
+
+window.addEventListener('hashchange', () => {
+  const hash = window.location.hash.slice(1) || 'home';
+  showView(hash);
+});
+
+/* ── Search ──────────────────────────────────────────── */
+function handleSearch(e) {
+  e.preventDefault();
+  navigate('results');
+}
+
+/* ── Theme toggle ────────────────────────────────────── */
+const html = document.documentElement;
+document.getElementById('theme-toggle').addEventListener('click', () => {
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  lucide.createIcons();
+});
+
+/* ── Mobile sidebar (results filters) ───────────────── */
+function openSidebar() {
+  document.getElementById('filters-sidebar').classList.add('mobile-open');
+  document.getElementById('sidebar-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeSidebar() {
+  document.getElementById('filters-sidebar').classList.remove('mobile-open');
+  document.getElementById('sidebar-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+const mobileFilterBtn = document.getElementById('mobile-filter-btn');
+if (mobileFilterBtn) mobileFilterBtn.addEventListener('click', openSidebar);
+
+/* ── Accordion ──────────────────────────────────────── */
+document.querySelectorAll('.accordion-trigger').forEach(trigger => {
+  trigger.addEventListener('click', () => {
+    const expanded = trigger.getAttribute('aria-expanded') === 'true';
+    trigger.setAttribute('aria-expanded', String(!expanded));
+    const panelId = trigger.getAttribute('aria-controls');
+    const panel = document.getElementById(panelId);
+    if (panel) panel.classList.toggle('open', !expanded);
+  });
+});
+
+/* ── Share button ────────────────────────────────────── */
+const shareBtn = document.getElementById('share-btn');
+if (shareBtn) {
+  shareBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      showToast('Enlace copiado al portapapeles');
+    }).catch(() => {
+      showToast('No se pudo copiar el enlace');
+    });
+  });
+}
+
+/* ── Toast ───────────────────────────────────────────── */
+let toastTimer;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2500);
+}
+
+/* ── Init ────────────────────────────────────────────── */
+const initHash = window.location.hash.slice(1) || 'home';
+showView(initHash);
+</script>
+</body>
+</html>
